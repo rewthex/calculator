@@ -2,8 +2,10 @@ const buttons = document.querySelectorAll("button");
 const results = document.querySelector("input");
 
 addEventListener("keydown", (e) => {
-	handleDigits(e.key)
-})
+	if (Number(e.key)) handleDigits(e.key);
+	if ("/*-+".includes(e.key)) handleOperators(e.key);
+	if (e.key === "Enter") handleEquals();
+});
 
 buttons.forEach((button) => {
 	const buttonClass = button.className;
@@ -46,18 +48,22 @@ const operate = (a, b, operator) => {
 	b = parseInt(b);
 	switch (operator) {
 		case "add":
+		case "+":
 			return add(a, b);
 		case "subtract":
+		case "-":
 			return subtract(a, b);
 		case "multiply":
+		case "*":
 			return multiply(a, b);
 		case "divide":
+		case "/":
 			return divide(a, b);
 	}
 };
 
 function handleDigits(e) {
-	let digit = (e.target === undefined) ? e : e.target.id
+	let digit = e.target === undefined ? e : e.target.id;
 	if (!secondInteger && !operator) {
 		firstInteger += digit;
 		results.value = firstInteger;
@@ -68,19 +74,22 @@ function handleDigits(e) {
 }
 
 function handleOperators(e) {
+	let operation = e.target === undefined ? e : e.target.id;
 	if (firstInteger && !secondInteger) {
-		operator = e.target.id;
+		operator = operation;
 	} else if (firstInteger && secondInteger && operator) {
 		handleEquals();
-		operator = e.target.id;
+		operator = operation;
 	}
 }
 
 function handleDecimal() {}
 
 function handleEquals() {
+	console.log(firstInteger, secondInteger, operator)
 	if (firstInteger && secondInteger && operator) {
 		result = operate(firstInteger, secondInteger, operator);
+		console.log(result)
 		results.value = result;
 		firstInteger = result;
 		secondInteger = "";
