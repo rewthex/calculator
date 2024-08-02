@@ -1,6 +1,10 @@
 const buttons = document.querySelectorAll("button");
 const results = document.querySelector("input");
 
+addEventListener("keydown", (e) => {
+	handleDigits(e.key)
+})
+
 buttons.forEach((button) => {
 	const buttonClass = button.className;
 	switch (buttonClass) {
@@ -53,18 +57,21 @@ const operate = (a, b, operator) => {
 };
 
 function handleDigits(e) {
+	let digit = (e.target === undefined) ? e : e.target.id
 	if (!secondInteger && !operator) {
-		firstInteger += e.target.id;
-		console.log(firstInteger);
+		firstInteger += digit;
 		results.value = firstInteger;
 	} else {
-		secondInteger += e.target.id;
+		secondInteger += digit;
 		results.value = secondInteger;
 	}
 }
 
 function handleOperators(e) {
 	if (firstInteger && !secondInteger) {
+		operator = e.target.id;
+	} else if (firstInteger && secondInteger && operator) {
+		handleEquals();
 		operator = e.target.id;
 	}
 }
@@ -75,5 +82,8 @@ function handleEquals() {
 	if (firstInteger && secondInteger && operator) {
 		result = operate(firstInteger, secondInteger, operator);
 		results.value = result;
+		firstInteger = result;
+		secondInteger = "";
+		operator = "";
 	}
 }
