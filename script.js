@@ -1,5 +1,5 @@
 const buttons = document.querySelectorAll("button");
-const results = document.querySelector("input")
+const results = document.querySelector("input");
 
 buttons.forEach((button) => {
 	const buttonClass = button.className;
@@ -19,10 +19,10 @@ buttons.forEach((button) => {
 	}
 });
 
-let firstInteger;
-let secondInteger;
-let operator;
-let result;
+let firstInteger = "";
+let secondInteger = "";
+let operator = "";
+let result = "";
 
 const add = (a, b) => {
 	return a + b;
@@ -38,38 +38,42 @@ const divide = (a, b) => {
 };
 
 const operate = (a, b, operator) => {
-    console.log(a, b, operator)
+	a = parseInt(a);
+	b = parseInt(b);
 	switch (operator) {
 		case "add":
-			results.value = add(a, b);
-			break;
+			return add(a, b);
 		case "subtract":
-			results.value = subtract(a, b);
-			break;
+			return subtract(a, b);
 		case "multiply":
-			results.value = multiply(a, b);
-			break;
+			return multiply(a, b);
 		case "divide":
-			results.value = divide(a, b);
-			break;
+			return divide(a, b);
 	}
 };
 
 function handleDigits(e) {
-	firstInteger = e.target.id;
-    secondInteger = 42
+	if (!secondInteger && !operator) {
+		firstInteger += e.target.id;
+		console.log(firstInteger);
+		results.value = firstInteger;
+	} else {
+		secondInteger += e.target.id;
+		results.value = secondInteger;
+	}
 }
 
 function handleOperators(e) {
-	operator = e.target.id
+	if (firstInteger && !secondInteger) {
+		operator = e.target.id;
+	}
 }
 
-function handleDecimal() {
-	
-}
+function handleDecimal() {}
 
 function handleEquals() {
 	if (firstInteger && secondInteger && operator) {
-        operate(firstInteger, secondInteger, operator)
-    }
+		result = operate(firstInteger, secondInteger, operator);
+		results.value = result;
+	}
 }
