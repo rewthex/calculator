@@ -2,7 +2,7 @@ const buttons = document.querySelectorAll("button");
 const results = document.querySelector("input");
 
 addEventListener("keydown", (e) => {
-	if (Number(e.key)) handleDigits(e.key);
+	if (Number(e.key) || e.key === "0") handleDigits(e.key);
 	if ("/*-+".includes(e.key)) handleOperators(e.key);
 	if (e.key === "Enter") handleEquals();
 });
@@ -21,6 +21,9 @@ buttons.forEach((button) => {
 			break;
 		case "decimal":
 			button.addEventListener("click", handleDecimal);
+			break;
+		case "clear":
+			button.addEventListener("click", handleClear);
 			break;
 	}
 });
@@ -86,13 +89,30 @@ function handleOperators(e) {
 function handleDecimal() {}
 
 function handleEquals() {
-	console.log(firstInteger, secondInteger, operator)
+	if (secondInteger === "0" && (operator === "divide" || operator === "/"))
+		return handleDivideByZero();
 	if (firstInteger && secondInteger && operator) {
 		result = operate(firstInteger, secondInteger, operator);
-		console.log(result)
 		results.value = result;
 		firstInteger = result;
 		secondInteger = "";
 		operator = "";
 	}
+}
+
+function handleClear() {
+	firstInteger = "";
+	secondInteger = "";
+	operator = "";
+	result = "";
+	results.value = "";
+}
+
+function handleDivideByZero() {
+	const secret = document.querySelector(".dbz");
+	secret.classList.add("secret");
+	setTimeout(() => {
+		secret.classList.remove("secret");
+	}, 5000);
+	handleClear();
 }
