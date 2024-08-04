@@ -47,8 +47,8 @@ const divide = (a, b) => {
 };
 
 const operate = (a, b, operator) => {
-	a = parseInt(a);
-	b = parseInt(b);
+	a = parseFloat(a);
+	b = parseFloat(b);
 	switch (operator) {
 		case "add":
 		case "+":
@@ -86,11 +86,7 @@ function handleOperators(e) {
 	}
 }
 
-function handleDecimal() {}
-
 function handleEquals() {
-	if (secondInteger === "0" && (operator === "divide" || operator === "/"))
-		return handleDivideByZero();
 	if (firstInteger && secondInteger && operator) {
 		result = operate(firstInteger, secondInteger, operator);
 		results.value = result;
@@ -100,19 +96,26 @@ function handleEquals() {
 	}
 }
 
+function handleDecimal() {
+	if (!firstInteger) {
+		firstInteger = "0.";
+		results.value = firstInteger;
+	} else if (firstInteger.indexOf(".") === -1 && !operator) {
+		firstInteger += ".";
+		results.value = firstInteger;
+	} else if (firstInteger && operator && !secondInteger) {
+		secondInteger = "0.";
+		results.value = secondInteger;
+	} else if (firstInteger && operator && secondInteger.indexOf(".") === -1) {
+		secondInteger += ".";
+		results.value = secondInteger;
+	}
+}
+
 function handleClear() {
 	firstInteger = "";
 	secondInteger = "";
 	operator = "";
 	result = "";
 	results.value = "";
-}
-
-function handleDivideByZero() {
-	const secret = document.querySelector(".dbz");
-	secret.classList.add("secret");
-	setTimeout(() => {
-		secret.classList.remove("secret");
-	}, 5000);
-	handleClear();
 }
