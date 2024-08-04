@@ -13,8 +13,10 @@ body {
 	line-height: 1.5;
 	-webkit-font-smoothing: antialiased;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 img,
@@ -47,6 +49,11 @@ h6 {
 	isolation: isolate;
 }
 
+.heading {
+    width: 400px;
+    text-align: center;
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
@@ -54,12 +61,11 @@ h6 {
 	width: 400px;
 	height: 500px;
 	padding: 10px 30px 30px;
+    margin-top: 75px;
 	background-color: #c7cdd2;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.15),
 		0 16px 32px rgba(0, 0, 0, 0.1);
-	transform: perspective(1000px) rotateX(10deg) translateZ(-100px);
-	transform-style: preserve-3d;
 }
 
 .row {
@@ -97,7 +103,7 @@ h6 {
 	border-radius: 4px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.15);
 	text-align: end;
-	padding: 5px;
+	padding: 5px 15px;
 	margin-top: 10px;
 }
 
@@ -127,3 +133,4 @@ input {
 	width: 300px;
 	margin: 5px;
 }
+

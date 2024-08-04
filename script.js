@@ -1,5 +1,10 @@
 const buttons = document.querySelectorAll("button");
 const results = document.querySelector("input");
+const calculator = document.querySelector(".container");
+const body = document.querySelector("body");
+const heading = document.querySelector("h1");
+
+const hexSymbols = "0123456789ABCDEF";
 
 addEventListener("keydown", (e) => {
 	if (Number(e.key) || e.key === "0") handleDigits(e.key);
@@ -88,6 +93,10 @@ function handleOperators(e) {
 
 function handleEquals() {
 	if (firstInteger && secondInteger && operator) {
+		console.log(firstInteger, secondInteger, operator);
+		if (secondInteger === "0" && (operator === "divide" || operator === "/")) {
+			return divideByZero();
+		}
 		result = operate(firstInteger, secondInteger, operator);
 		results.value = result;
 		firstInteger = result;
@@ -118,4 +127,22 @@ function handleClear() {
 	operator = "";
 	result = "";
 	results.value = "";
+}
+
+function generateRandomColor() {
+	let color = "#";
+	for (let i = 0; i < 6; i++) {
+		color += hexSymbols[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
+
+function divideByZero() {
+	handleClear();
+	const allElements = [...buttons, results, calculator, body];
+	heading.innerText = "Of course you divided by zero.";
+	allElements.forEach((element) => {
+		element.style.backgroundColor = generateRandomColor();
+		element.style.color = generateRandomColor();
+	});
 }
